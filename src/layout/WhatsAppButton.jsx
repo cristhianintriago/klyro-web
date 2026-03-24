@@ -58,38 +58,11 @@ export function WhatsAppButton() {
 
       {/* Tooltip */}
       {(tooltip || hovered) && (
-        <div style={{
-          position:      "fixed",
-          bottom:        "2.25rem",
-          right:         "5.5rem",
-          zIndex:        999,
-          background:    "#1a2332",
-          border:        "1px solid rgba(37,211,102,0.25)",
-          borderRadius:  "12px",
-          padding:       "10px 16px",
-          color:         "#f1f5f9",
-          fontSize:      "0.82rem",
-          fontFamily:    "'DM Sans', sans-serif",
-          whiteSpace:    "nowrap",
-          pointerEvents: "none",
-          animation:     `${tooltip && !hovered ? "tooltip-out" : "tooltip-in"} 0.25s ease forwards`,
-          boxShadow:     "0 8px 32px rgba(0,0,0,0.4)",
-          display:       "flex",
-          alignItems:    "center",
-          gap:           "8px",
-        }}>
+        <div className="fixed bottom-9 right-[5.5rem] z-[999] bg-[#1a2332] border border-[#25d366]/25 rounded-xl py-2.5 px-4 text-[#f1f5f9] text-[0.82rem] font-sans whitespace-nowrap pointer-events-none shadow-[0_8px_32px_rgba(0,0,0,0.4)] flex items-center gap-2"
+             style={{ animation: `${tooltip && !hovered ? 'tooltip-out' : 'tooltip-in'} 0.25s ease forwards` }}>
           {/* Bubble tail */}
-          <div style={{
-            position:    "absolute",
-            right:       "-6px",
-            top:         "50%",
-            transform:   "translateY(-50%)",
-            width:       0, height: 0,
-            borderTop:   "6px solid transparent",
-            borderBottom:"6px solid transparent",
-            borderLeft:  "6px solid #1a2332",
-          }} />
-          <span style={{ fontSize: "0.9rem" }}>💬</span>
+          <div className="absolute right-[-6px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[6px] border-l-[#1a2332]" />
+          <span className="text-[0.9rem]">💬</span>
           {label}
         </div>
       )}
@@ -103,26 +76,9 @@ export function WhatsAppButton() {
           aria-label={label}
           onMouseEnter={() => { setHovered(true);  setTooltip(false); }}
           onMouseLeave={() => setHovered(false)}
+          className={`fixed bottom-8 right-8 z-[1000] w-14 h-14 rounded-full flex items-center justify-center no-underline cursor-pointer transition-all duration-250 ${hovered ? "scale-110 bg-gradient-to-br from-[#25d366] to-[#1da851]" : "scale-100 bg-gradient-to-br from-[#25d366] to-[#20ba5a]"}`}
           style={{
-            position:       "fixed",
-            bottom:         "2rem",
-            right:          "2rem",
-            zIndex:         1000,
-            width:          56,
-            height:         56,
-            borderRadius:   "50%",
-            background:     hovered
-              ? "linear-gradient(135deg,#25d366,#1da851)"
-              : "linear-gradient(135deg,#25d366,#20ba5a)",
-            display:        "flex",
-            alignItems:     "center",
-            justifyContent: "center",
-            textDecoration: "none",
-            cursor:         "pointer",
-            animation:      `wa-enter 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards,
-                             ${hovered ? "wa-pulse-hover" : "wa-pulse"} 2.5s ease-in-out 0.5s infinite`,
-            transform:      hovered ? "scale(1.1)" : "scale(1)",
-            transition:     "transform 0.25s cubic-bezier(0.34,1.56,0.64,1), background 0.25s",
+            animation: `wa-enter 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards, ${hovered ? 'wa-pulse-hover' : 'wa-pulse'} 2.5s ease-in-out 0.5s infinite`,
           }}
         >
           {/* WhatsApp SVG icon */}

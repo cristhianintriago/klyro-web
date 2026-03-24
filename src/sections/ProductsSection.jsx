@@ -1,44 +1,29 @@
 // ─── ProductsSection ─────────────────────────────────────────
 
 import { useLang }                        from "../context/LangContext";
-import { useInView, useHover }            from "../hooks";
+import { useInView }                      from "../hooks";
 import { Tag, Badge, SectionLabel, Reveal } from "../ui";
 import { getProducts }                    from "../data";
-import { T }                              from "../tokens";
 
 export function ProductsSection() {
-  const { lang, t } = useLang();
+  const { lang, t }  = useLang();
   const products     = getProducts(lang);
   const pt           = t.products;
 
   return (
-    <section id="products" style={{
-      padding:   "7rem 2rem",
-      maxWidth:  "1100px",
-      margin:    "0 auto",
-    }}>
+    <section id="products" className="py-[7rem] px-[2rem] max-w-[1100px] mx-auto">
       <SectionLabel text={pt.sectionLabel} />
 
-      <Reveal style={{ marginBottom: "3.5rem" }}>
-        <h2 style={{
-          fontFamily:    T.serif,
-          fontSize:      "clamp(1.9rem,4.5vw,3rem)",
-          fontWeight:    400,
-          color:         T.text,
-          margin:        "0 0 0.65rem",
-          letterSpacing: "-0.02em",
-        }}>
+      <Reveal className="mb-[3.5rem]">
+        <h2 className="font-serif text-[clamp(1.9rem,4.5vw,3rem)] font-normal text-ktext m-0 mb-2.5 tracking-[-0.02em]">
           {pt.heading}
         </h2>
-        <p style={{ fontFamily: T.sans, color: T.subtle, fontSize: "0.95rem", maxWidth: 520 }}>
+        <p className="font-sans text-ksubtle text-[0.95rem] max-w-[520px]">
           {pt.sub}
         </p>
       </Reveal>
 
-      <div
-        className="products-grid"
-        style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1.25rem" }}
-      >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {products.map((p, i) => (
           <ProductCard key={p.id} product={p} index={i} />
         ))}
@@ -50,108 +35,50 @@ export function ProductsSection() {
 // ── ProductCard ───────────────────────────────────────────────
 function ProductCard({ product, index }) {
   const [ref, visible] = useInView();
-  const [h, hov]       = useHover();
 
   return (
     <div
       ref={ref}
-      {...hov}
-      className={product.featured ? "featured-card" : ""}
+      className={`group relative overflow-hidden backdrop-blur-md bg-kcard hover:bg-kcardhov border border-kborder hover:border-kborderhov rounded-kradius p-8 transition-all duration-300 ease-out hover:-translate-y-1 ${product.featured ? "md:col-span-2" : "col-span-1"}`}
       style={{
-        background:     h ? T.cardHover : T.card,
-        border:         h ? `1px solid ${product.badgeColor}44` : `1px solid ${T.border}`,
-        borderRadius:   T.radius,
-        padding:        "2rem",
-        position:       "relative",
-        overflow:       "hidden",
-        backdropFilter: "blur(10px)",
-        gridColumn:     product.featured ? "span 2" : "span 1",
-        opacity:        visible ? 1 : 0,
-        transform:      visible ? (h ? "translateY(-4px)" : "none") : "translateY(24px)",
-        transition:     `opacity 0.7s ease ${index * 0.1}s, transform 0.35s ease, background 0.3s, border 0.3s`,
+        opacity: visible ? 1 : 0,
+        transform: visible ? (product.featured ? "translateY(0)" : "translateY(0)") : "translateY(24px)",
+        transition: `opacity 0.7s ease ${index * 0.1}s, transform 0.35s ease, background-color 0.3s, border-color 0.3s`,
       }}
     >
       {/* Top accent line on hover */}
-      {h && (
-        <div style={{
-          position:   "absolute",
-          top: 0, left: 0, right: 0,
-          height:     1,
-          background: `linear-gradient(90deg, transparent, ${product.badgeColor}, transparent)`,
-        }} />
-      )}
+      <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+           style={{ background: `linear-gradient(90deg, transparent, ${product.badgeColor}, transparent)` }} />
 
       {/* Icon + Badge */}
-      <div style={{
-        display:        "flex",
-        justifyContent: "space-between",
-        alignItems:     "flex-start",
-        marginBottom:   "1.25rem",
-      }}>
-        <div style={{
-          width:        44, height: 44,
-          background:   h ? `${product.badgeColor}22` : `${product.badgeColor}12`,
-          border:       `1px solid ${product.badgeColor}30`,
-          borderRadius: "12px",
-          display:      "flex",
-          alignItems:   "center",
-          justifyContent: "center",
-          fontSize:     "1.2rem",
-          color:        product.badgeColor,
-          transition:   "all 0.3s",
-          transform:    h ? "scale(1.06)" : "none",
-        }}>
+      <div className="flex justify-between items-start mb-5">
+        <div className="w-11 h-11 rounded-xl flex items-center justify-center text-[1.2rem] transition-transform duration-300 group-hover:scale-105"
+             style={{ backgroundColor: `${product.badgeColor}12`, borderColor: `${product.badgeColor}30`, borderWidth: '1px', color: product.badgeColor }}>
           {product.icon}
         </div>
         <Badge label={product.badge} color={product.badgeColor} />
       </div>
 
       {/* Title */}
-      <h3 style={{
-        fontFamily:    T.serif,
-        fontSize:      "1.3rem",
-        fontWeight:    400,
-        color:         "#f1f5f9",
-        margin:        "0 0 0.55rem",
-        letterSpacing: "-0.01em",
-      }}>
+      <h3 className="font-serif text-[1.3rem] font-normal text-slate-100 m-0 mb-2 tracking-[-0.01em]">
         {product.title}
       </h3>
 
       {/* Description */}
-      <p style={{
-        fontFamily:  T.sans,
-        color:       T.muted,
-        fontSize:    "0.875rem",
-        lineHeight:  1.7,
-        margin:      "0 0 1.2rem",
-      }}>
+      <p className="font-sans text-kmuted text-[0.875rem] leading-[1.7] m-0 mb-[1.2rem]">
         {product.description}
       </p>
 
       {/* Problem pill */}
-      <div style={{
-        background:   "rgba(10,18,36,0.5)",
-        border:       "1px solid rgba(148,163,184,0.06)",
-        borderRadius: T.radiusSm,
-        padding:      "10px 14px",
-        marginBottom: "1.2rem",
-      }}>
-        <p style={{
-          fontFamily:    T.mono,
-          fontSize:      "0.7rem",
-          color:         T.subtle,
-          letterSpacing: "0.04em",
-          margin:        0,
-          lineHeight:    1.6,
-        }}>
-          <span style={{ color: "#94a3b8", marginRight: 6 }}>→</span>
+      <div className="bg-[#0a1224]/50 border border-slate-400/5 rounded-kradius-sm py-2.5 px-3.5 mb-[1.2rem]">
+        <p className="font-mono text-[0.7rem] text-ksubtle tracking-[0.04em] m-0 leading-[1.6]">
+          <span className="text-slate-400 mr-1.5">→</span>
           {product.problem}
         </p>
       </div>
 
       {/* Tags */}
-      <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+      <div className="flex gap-1.5 flex-wrap">
         {product.tags.map((tag) => (
           <Tag key={tag}>{tag}</Tag>
         ))}

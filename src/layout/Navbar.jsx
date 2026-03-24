@@ -1,13 +1,9 @@
 // ─── Navbar ───────────────────────────────────────────────────
-// Fixed top navigation with frosted-glass scroll effect,
-// desktop links, language toggle, and mobile hamburger drawer.
-// ─────────────────────────────────────────────────────────────
 
 import { useState } from "react";
 import { useLang }   from "../context/LangContext";
-import { useScrolled, useHover } from "../hooks";
+import { useScrolled } from "../hooks";
 import { LangToggle } from "./LangToggle";
-import { T } from "../tokens";
 
 export function Navbar() {
   const { t }   = useLang();
@@ -28,53 +24,23 @@ export function Navbar() {
   ];
 
   return (
-    <nav style={{
-      position:       "fixed",
-      top: 0, left: 0, right: 0,
-      zIndex:         100,
-      padding:        "0 2rem",
-      height:         "64px",
-      display:        "flex",
-      alignItems:     "center",
-      justifyContent: "space-between",
-      background:     scrolled ? "rgba(15,23,42,0.92)" : "transparent",
-      backdropFilter: scrolled ? "blur(18px)"           : "none",
-      borderBottom:   scrolled ? "1px solid rgba(59,130,246,0.1)" : "1px solid transparent",
-      transition:     "all 0.35s ease",
-    }}>
+    <nav className={`fixed top-0 left-0 right-0 z-[100] px-8 h-16 flex items-center justify-between transition-all duration-300 ${scrolled ? "bg-[#0f172a]/90 backdrop-blur-md border-b border-blue-500/10" : "bg-transparent border-b border-transparent"}`}>
 
       {/* ── Logo ── */}
       <div
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}
+        className="flex items-center gap-2.5 cursor-pointer"
       >
-        <div style={{
-          width:        32,
-          height:       32,
-          background:   "linear-gradient(135deg,#3b82f6,#1d4ed8)",
-          borderRadius: "8px",
-          display:      "flex",
-          alignItems:   "center",
-          justifyContent: "center",
-          fontSize:     15,
-          fontWeight:   700,
-          color:        "#fff",
-          boxShadow:    "0 0 20px rgba(59,130,246,0.35)",
-        }}>K</div>
-        <span style={{
-          fontFamily:    T.mono,
-          fontWeight:    600,
-          fontSize:      "1.05rem",
-          color:         T.text,
-          letterSpacing: "0.06em",
-        }}>klyro</span>
+        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center text-[15px] font-bold text-white shadow-[0_0_20px_rgba(59,130,246,0.35)]">
+          K
+        </div>
+        <span className="font-mono font-semibold text-[1.05rem] text-ktext tracking-[0.06em]">
+          klyro
+        </span>
       </div>
 
       {/* ── Desktop links ── */}
-      <div
-        className="desktop-nav"
-        style={{ display: "flex", gap: "1.75rem", alignItems: "center" }}
-      >
+      <div className="desktop-nav gap-7 items-center hidden md:flex">
         {NAV_ITEMS.map((l) => (
           <NavLink key={l.href} onClick={() => scrollTo(l.href)}>
             {l.label}
@@ -86,38 +52,20 @@ export function Navbar() {
 
       {/* ── Mobile hamburger ── */}
       <button
-        className="mobile-menu-btn"
+        className="mobile-menu-btn bg-transparent border-none cursor-pointer text-slate-400 text-[1.3rem] block md:hidden"
         onClick={() => setOpen(!open)}
-        style={{
-          background: "none", border: "none",
-          cursor: "pointer", color: "#94a3b8", fontSize: "1.3rem",
-        }}
       >
         {open ? "✕" : "☰"}
       </button>
 
       {/* ── Mobile drawer ── */}
       {open && (
-        <div style={{
-          position:       "fixed",
-          top:            "64px", left: 0, right: 0,
-          background:     "rgba(15,23,42,0.97)",
-          backdropFilter: "blur(20px)",
-          borderBottom:   "1px solid rgba(59,130,246,0.1)",
-          padding:        "1.5rem 2rem",
-          display:        "flex",
-          flexDirection:  "column",
-          gap:            "1.25rem",
-        }}>
+        <div className="fixed top-16 left-0 right-0 bg-[#0f172a]/95 backdrop-blur-xl border-b border-blue-500/10 py-6 px-8 flex flex-col gap-5 shadow-xl md:hidden">
           {NAV_ITEMS.map((l) => (
             <button
               key={l.href}
               onClick={() => scrollTo(l.href)}
-              style={{
-                background: "none", border: "none",
-                cursor: "pointer", color: "#94a3b8",
-                fontSize: "0.95rem", fontFamily: T.mono, textAlign: "left",
-              }}
+              className="bg-transparent border-none cursor-pointer text-slate-400 text-[0.95rem] font-mono text-left"
             >
               {l.label}
             </button>
@@ -129,22 +77,9 @@ export function Navbar() {
   );
 }
 
-// ── Internal sub-components ───────────────────────────────────
-
 function NavLink({ children, onClick }) {
-  const [h, hov] = useHover();
   return (
-    <button {...hov} onClick={onClick} style={{
-      background:    "none",
-      border:        "none",
-      cursor:        "pointer",
-      color:         h ? T.text : "#94a3b8",
-      fontSize:      "0.82rem",
-      fontFamily:    T.mono,
-      letterSpacing: "0.06em",
-      transition:    "color 0.2s",
-      padding:       "4px 0",
-    }}>
+    <button onClick={onClick} className="bg-transparent border-none cursor-pointer text-slate-400 hover:text-ktext text-[0.82rem] font-mono tracking-[0.06em] transition-colors py-1">
       {children}
     </button>
   );
@@ -154,26 +89,7 @@ function CtaButton({ label, onClick }) {
   return (
     <button
       onClick={onClick}
-      style={{
-        background:    T.blueDim,
-        border:        `1px solid ${T.blue}55`,
-        borderRadius:  "8px",
-        color:         "#60a5fa",
-        padding:       "7px 16px",
-        fontSize:      "0.77rem",
-        fontFamily:    T.mono,
-        letterSpacing: "0.08em",
-        cursor:        "pointer",
-        transition:    "all 0.2s",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background    = "rgba(59,130,246,0.2)";
-        e.currentTarget.style.borderColor   = T.blue;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background    = T.blueDim;
-        e.currentTarget.style.borderColor   = `${T.blue}55`;
-      }}
+      className="bg-kbluedim border border-blue-500/30 rounded-lg text-blue-400 py-[7px] px-4 text-[0.77rem] font-mono tracking-[0.08em] cursor-pointer transition-all hover:bg-blue-500/20 hover:border-kblue"
     >
       {label}
     </button>

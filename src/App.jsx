@@ -4,18 +4,16 @@ import { LangProvider }    from "./context/LangContext";
 import { Navbar }          from "./layout/Navbar";
 import { Footer }          from "./layout/Footer";
 import { WhatsAppButton }  from "./layout/WhatsAppButton";
-import { HeroSection, HERO_KEYFRAMES } from "./sections/HeroSection";
+import { HeroSection }     from "./sections/HeroSection";
 import { ProductsSection } from "./sections/ProductsSection";
 import { AboutSection }    from "./sections/AboutSection";
 import { WhySection }      from "./sections/WhySection";
 import { ContactSection }  from "./sections/ContactSection";
-import { T }               from "./tokens";
 
 export default function App() {
   return (
     <LangProvider>
-      <GlobalStyles />
-      <div style={{ background: T.bg, minHeight: "100vh" }}>
+      <div className="bg-kbg min-h-screen text-ktext">
         <Navbar />
         <main>
           <HeroSection />
@@ -28,40 +26,5 @@ export default function App() {
         <WhatsAppButton />
       </div>
     </LangProvider>
-  );
-}
-
-function GlobalStyles() {
-  return (
-    <style>{`
-      @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500;600&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap');
-
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      html  { scroll-behavior: smooth; }
-      body  { background: ${T.bg}; color: ${T.text}; -webkit-font-smoothing: antialiased; }
-
-      .desktop-nav     { display: flex !important; }
-      .mobile-menu-btn { display: none  !important; }
-
-      @media (max-width: 768px) {
-        .desktop-nav       { display: none  !important; }
-        .mobile-menu-btn   { display: block !important; }
-        .products-grid     { grid-template-columns: 1fr !important; }
-        .featured-card     { grid-column: span 1   !important; }
-      }
-
-      ::-webkit-scrollbar       { width: 5px; }
-      ::-webkit-scrollbar-track { background: ${T.bg}; }
-      ::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.28); border-radius: 3px; }
-
-      /* ── Hero keyframes ── */
-      ${HERO_KEYFRAMES}
-
-      /* ── Shared card shimmer on hover ── */
-      @keyframes shimmer {
-        from { background-position: -200% center; }
-        to   { background-position:  200% center; }
-      }
-    `}</style>
   );
 }

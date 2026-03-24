@@ -3,23 +3,12 @@
 // Import individually: import { Tag, Badge } from "../ui"
 // ─────────────────────────────────────────────────────────────
 
-import { useRef, useState, useEffect } from "react";
-import { T } from "../tokens";
-import { useInView, useHover } from "../hooks";
+import { useInView } from "../hooks";
 
 // ── Tag ──────────────────────────────────────────────────────
 export function Tag({ children }) {
   return (
-    <span style={{
-      background:    "rgba(148,163,184,0.06)",
-      border:        "1px solid rgba(148,163,184,0.1)",
-      borderRadius:  "6px",
-      padding:       "3px 10px",
-      fontSize:      "0.7rem",
-      color:         T.subtle,
-      fontFamily:    T.mono,
-      letterSpacing: "0.06em",
-    }}>
+    <span className="bg-slate-400/5 border border-slate-400/10 rounded-md py-[3px] px-[10px] text-[0.7rem] text-ksubtle font-mono tracking-[0.06em]">
       {children}
     </span>
   );
@@ -28,18 +17,8 @@ export function Tag({ children }) {
 // ── Badge ────────────────────────────────────────────────────
 export function Badge({ label, color }) {
   return (
-    <span style={{
-      background:    `${color}14`,
-      border:        `1px solid ${color}30`,
-      color,
-      borderRadius:  "100px",
-      padding:       "3px 10px",
-      fontSize:      "0.68rem",
-      fontFamily:    T.mono,
-      letterSpacing: "0.08em",
-      fontWeight:    600,
-      whiteSpace:    "nowrap",
-    }}>
+    <span className="rounded-full py-[3px] px-[10px] text-[0.68rem] font-mono tracking-[0.08em] font-semibold whitespace-nowrap border"
+          style={{ backgroundColor: `${color}14`, borderColor: `${color}30`, color }}>
       {label}
     </span>
   );
@@ -48,17 +27,8 @@ export function Badge({ label, color }) {
 // ── SectionLabel ─────────────────────────────────────────────
 export function SectionLabel({ text }) {
   return (
-    <div style={{
-      fontFamily:    T.mono,
-      fontSize:      "0.68rem",
-      letterSpacing: "0.2em",
-      color:         T.blue,
-      marginBottom:  "1.25rem",
-      display:       "flex",
-      alignItems:    "center",
-      gap:           10,
-    }}>
-      <div style={{ width: 24, height: 1, background: T.blue, flexShrink: 0 }} />
+    <div className="font-mono text-[0.68rem] tracking-[0.2em] text-kblue mb-5 flex items-center gap-2.5">
+      <div className="w-6 h-px bg-kblue shrink-0" />
       {text}
     </div>
   );
@@ -66,7 +36,7 @@ export function SectionLabel({ text }) {
 
 // ── Reveal ───────────────────────────────────────────────────
 // Scroll-triggered animation. direction: "up" | "left" | "right" | "scale"
-export function Reveal({ children, delay = 0, direction = "up", style = {} }) {
+export function Reveal({ children, delay = 0, direction = "up", className = "", style = {} }) {
   const [ref, visible] = useInView();
 
   const hiddenMap = {
@@ -78,7 +48,7 @@ export function Reveal({ children, delay = 0, direction = "up", style = {} }) {
   const hidden = hiddenMap[direction] ?? "translateY(30px)";
 
   return (
-    <div ref={ref} style={{
+    <div ref={ref} className={className} style={{
       opacity:    visible ? 1 : 0,
       transform:  visible ? "translateY(0) translateX(0) scale(1)" : hidden,
       transition: `opacity 0.85s ease ${delay}s, transform 0.85s cubic-bezier(0.22,1,0.36,1) ${delay}s`,
@@ -91,22 +61,8 @@ export function Reveal({ children, delay = 0, direction = "up", style = {} }) {
 
 // ── PrimaryBtn ───────────────────────────────────────────────
 export function PrimaryBtn({ children, onClick }) {
-  const [h, hov] = useHover();
   return (
-    <button {...hov} onClick={onClick} style={{
-      background:    "linear-gradient(135deg,#3b82f6,#1d4ed8)",
-      border:        "none",
-      borderRadius:  "10px",
-      color:         "#fff",
-      padding:       "13px 28px",
-      fontSize:      "0.85rem",
-      fontFamily:    T.mono,
-      letterSpacing: "0.07em",
-      cursor:        "pointer",
-      boxShadow:     h ? "0 8px 40px rgba(59,130,246,0.45)" : "0 0 28px rgba(59,130,246,0.28)",
-      transform:     h ? "translateY(-2px)" : "none",
-      transition:    "all 0.25s",
-    }}>
+    <button onClick={onClick} className="bg-gradient-to-br from-blue-500 to-blue-700 border-none rounded-[10px] text-white py-[13px] px-[28px] text-[0.85rem] font-mono tracking-[0.07em] cursor-pointer shadow-[0_0_28px_rgba(59,130,246,0.28)] hover:shadow-[0_8px_40px_rgba(59,130,246,0.45)] hover:-translate-y-[2px] transition-all duration-300">
       {children}
     </button>
   );
@@ -114,20 +70,8 @@ export function PrimaryBtn({ children, onClick }) {
 
 // ── GhostBtn ─────────────────────────────────────────────────
 export function GhostBtn({ children, onClick }) {
-  const [h, hov] = useHover();
   return (
-    <button {...hov} onClick={onClick} style={{
-      background:    "transparent",
-      border:        `1px solid ${h ? "rgba(148,163,184,0.5)" : "rgba(148,163,184,0.2)"}`,
-      borderRadius:  "10px",
-      color:         h ? T.text : "#94a3b8",
-      padding:       "13px 28px",
-      fontSize:      "0.85rem",
-      fontFamily:    T.mono,
-      letterSpacing: "0.07em",
-      cursor:        "pointer",
-      transition:    "all 0.25s",
-    }}>
+    <button onClick={onClick} className="bg-transparent border border-slate-400/20 rounded-[10px] text-slate-400 py-[13px] px-[28px] text-[0.85rem] font-mono tracking-[0.07em] cursor-pointer transition-all duration-300 hover:border-slate-400/50 hover:text-ktext hover:-translate-y-[2px] shadow-sm hover:shadow-md">
       {children}
     </button>
   );

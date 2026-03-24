@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 
 // ─────────────────────────────────────────────────────────────
 // IMPORTANTE: cambia "klyro-web" por el nombre exacto de tu repo
@@ -7,6 +8,6 @@ import react from "@vitejs/plugin-react";
 // Si tu repo se llama "klyro-web"         → base: "/klyro-web/"
 // ─────────────────────────────────────────────────────────────
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   base: "/klyro-web/", // 👈 cambia esto por el nombre de tu repo
 });

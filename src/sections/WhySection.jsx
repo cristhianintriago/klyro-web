@@ -1,10 +1,9 @@
 // ─── WhySection ──────────────────────────────────────────────
 
 import { useLang }             from "../context/LangContext";
-import { useInView, useHover } from "../hooks";
+import { useInView }           from "../hooks";
 import { SectionLabel, Reveal } from "../ui";
 import { getWhyItems }         from "../data";
-import { T }                   from "../tokens";
 
 export function WhySection() {
   const { lang, t } = useLang();
@@ -12,31 +11,16 @@ export function WhySection() {
   const wt           = t.why;
 
   return (
-    <section id="why" style={{
-      padding:  "7rem 2rem",
-      maxWidth: "1100px",
-      margin:   "0 auto",
-    }}>
+    <section id="why" className="py-[7rem] px-[2rem] max-w-[1100px] mx-auto">
       <SectionLabel text={wt.sectionLabel} />
 
-      <Reveal style={{ marginBottom: "3.5rem" }}>
-        <h2 style={{
-          fontFamily:    T.serif,
-          fontSize:      "clamp(1.75rem,4vw,2.6rem)",
-          fontWeight:    400,
-          color:         T.text,
-          margin:        0,
-          letterSpacing: "-0.02em",
-        }}>
+      <Reveal className="mb-[3.5rem]">
+        <h2 className="font-serif text-[clamp(1.75rem,4vw,2.6rem)] font-normal text-ktext m-0 tracking-[-0.02em]">
           {wt.heading}
         </h2>
       </Reveal>
 
-      <div style={{
-        display:               "grid",
-        gridTemplateColumns:   "repeat(auto-fit, minmax(220px, 1fr))",
-        gap:                   "1.2rem",
-      }}>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-[1.2rem]">
         {items.map((item, i) => (
           <WhyCard key={i} item={item} index={i} />
         ))}
@@ -48,52 +32,26 @@ export function WhySection() {
 // ── WhyCard ───────────────────────────────────────────────────
 function WhyCard({ item, index }) {
   const [ref, visible] = useInView();
-  const [h, hov]       = useHover();
 
   return (
     <div
       ref={ref}
-      {...hov}
+      className="group bg-[#0f172a66] hover:bg-[#162238b3] border border-kborder hover:border-blue-500/20 rounded-kradius p-[1.75rem] transition-all duration-300 ease-out hover:-translate-y-[3px]"
       style={{
-        background:      h ? "rgba(22,34,56,0.7)" : "rgba(15,23,42,0.4)",
-        border:          `1px solid ${h ? "rgba(59,130,246,0.22)" : T.border}`,
-        borderRadius:    T.radius,
-        padding:         "1.75rem",
-        transition:      "all 0.3s ease",
-        opacity:         visible ? 1 : 0,
-        transform:       visible ? (h ? "translateY(-3px)" : "none") : "translateY(20px)",
-        transitionDelay: `${index * 0.07}s`,
+        opacity: visible ? 1 : 0,
+        transform: visible ? "" : "translateY(20px)",
+        transition: `opacity 0.7s ease ${index * 0.07}s, transform 0.35s ease, background-color 0.3s, border-color 0.3s`,
       }}
     >
-      <div style={{
-        fontSize:    "1.4rem",
-        color:       T.blue,
-        marginBottom: "1rem",
-        display:     "inline-block",
-        transition:  "transform 0.3s",
-        transform:   h ? "scale(1.15)" : "none",
-      }}>
+      <div className="text-[1.4rem] text-kblue mb-[1rem] inline-block transition-transform duration-300 group-hover:scale-[1.15]">
         {item.icon}
       </div>
 
-      <h4 style={{
-        fontFamily:    T.mono,
-        fontSize:      "0.82rem",
-        fontWeight:    600,
-        color:         "#e2e8f0",
-        margin:        "0 0 0.55rem",
-        letterSpacing: "0.02em",
-      }}>
+      <h4 className="font-mono text-[0.82rem] font-semibold text-slate-200 m-0 mb-[0.55rem] tracking-[0.02em]">
         {item.title}
       </h4>
 
-      <p style={{
-        fontFamily: T.sans,
-        color:      T.subtle,
-        fontSize:   "0.85rem",
-        lineHeight: 1.65,
-        margin:     0,
-      }}>
+      <p className="font-sans text-ksubtle text-[0.85rem] leading-[1.65] m-0">
         {item.desc}
       </p>
     </div>
