@@ -65,14 +65,23 @@ export function SectionLabel({ text }) {
 }
 
 // ── Reveal ───────────────────────────────────────────────────
-// Wraps any content in a scroll-triggered fade+slide animation.
-export function Reveal({ children, delay = 0, style = {} }) {
+// Scroll-triggered animation. direction: "up" | "left" | "right" | "scale"
+export function Reveal({ children, delay = 0, direction = "up", style = {} }) {
   const [ref, visible] = useInView();
+
+  const hiddenMap = {
+    up:    "translateY(30px)",
+    left:  "translateX(-30px)",
+    right: "translateX(30px)",
+    scale: "scale(0.93)",
+  };
+  const hidden = hiddenMap[direction] ?? "translateY(30px)";
+
   return (
     <div ref={ref} style={{
       opacity:    visible ? 1 : 0,
-      transform:  visible ? "translateY(0)" : "translateY(22px)",
-      transition: `opacity 0.75s ease ${delay}s, transform 0.75s cubic-bezier(0.22,1,0.36,1) ${delay}s`,
+      transform:  visible ? "translateY(0) translateX(0) scale(1)" : hidden,
+      transition: `opacity 0.85s ease ${delay}s, transform 0.85s cubic-bezier(0.22,1,0.36,1) ${delay}s`,
       ...style,
     }}>
       {children}

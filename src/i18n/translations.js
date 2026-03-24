@@ -38,6 +38,7 @@ export const TRANSLATIONS = {
       sectionLabel: "CONTACT",
       heading:      "Let's connect",
       sub:          "Have an idea, a question, or want to work together? Reach out directly.",
+      whatsapp:     "Talk to an advisor",
     },
     footer: {
       copy: "BUILDING IN PUBLIC · ITERATION OVER PERFECTION",
@@ -78,6 +79,7 @@ export const TRANSLATIONS = {
       sectionLabel: "CONTACTO",
       heading:      "Conectemos",
       sub:          "¿Tienes una idea, una pregunta o quieres colaborar? Escríbenos directamente.",
+      whatsapp:     "Hablar con un asesor",
     },
     footer: {
       copy: "CONSTRUYENDO EN PÚBLICO · ITERACIÓN SOBRE PERFECCIÓN",

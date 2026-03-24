@@ -1,10 +1,10 @@
 // ─── ContactSection ──────────────────────────────────────────
 
-import { useLang }             from "../context/LangContext";
-import { useHover }            from "../hooks";
+import { useLang }              from "../context/LangContext";
+import { useHover }             from "../hooks";
 import { SectionLabel, Reveal } from "../ui";
-import { CONTACT_LINKS }       from "../data";
-import { T }                   from "../tokens";
+import { CONTACT_LINKS }        from "../data";
+import { T }                    from "../tokens";
 
 export function ContactSection() {
   const { t } = useLang();
@@ -37,13 +37,13 @@ export function ContactSection() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.1}>
+        <Reveal delay={0.12} direction="scale">
           <div style={{
             background:     T.card,
             border:         `1px solid ${T.border}`,
             borderRadius:   T.radiusLg,
             padding:        "2.5rem",
-            backdropFilter: "blur(12px)",
+            backdropFilter: "blur(14px)",
           }}>
             {CONTACT_LINKS.map((link, i) => (
               <div key={link.label}>
@@ -51,7 +51,7 @@ export function ContactSection() {
                   <div style={{
                     height:     1,
                     background: "rgba(148,163,184,0.06)",
-                    margin:     "1.25rem 0",
+                    margin:     "1.5rem 0",
                   }} />
                 )}
                 <ContactLink {...link} />
@@ -65,8 +65,9 @@ export function ContactSection() {
 }
 
 // ── ContactLink ───────────────────────────────────────────────
-function ContactLink({ icon, label, value, href }) {
+function ContactLink({ icon, label, value, href, color }) {
   const [h, hov] = useHover();
+  const accentColor = color ?? T.blue;
 
   return (
     <a
@@ -75,54 +76,64 @@ function ContactLink({ icon, label, value, href }) {
       target="_blank"
       rel="noopener noreferrer"
       style={{
-        display:         "flex",
-        alignItems:      "center",
-        gap:             "1rem",
-        textDecoration:  "none",
-        padding:         "4px 0",
+        display:        "flex",
+        alignItems:     "center",
+        gap:            "1rem",
+        textDecoration: "none",
+        padding:        "6px 0",
+        transition:     "all 0.2s",
       }}
     >
+      {/* Icon box */}
       <div style={{
-        width:        38, height: 38,
-        background:   h ? "rgba(59,130,246,0.15)" : T.blueDim,
-        border:       `1px solid ${h ? "rgba(59,130,246,0.4)" : "rgba(59,130,246,0.15)"}`,
-        borderRadius: "10px",
-        display:      "flex",
-        alignItems:   "center",
+        width:          44,
+        height:         44,
+        background:     h ? `${accentColor}20` : `${accentColor}10`,
+        border:         `1px solid ${h ? `${accentColor}55` : `${accentColor}22`}`,
+        borderRadius:   "12px",
+        display:        "flex",
+        alignItems:     "center",
         justifyContent: "center",
-        color:        T.blue,
-        fontSize:     "0.88rem",
-        transition:   "all 0.2s",
+        color:          accentColor,
+        fontSize:       "1rem",
+        transition:     "all 0.25s",
+        transform:      h ? "scale(1.08)" : "scale(1)",
+        flexShrink:     0,
       }}>
         {icon}
       </div>
 
-      <div>
+      {/* Text */}
+      <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{
           fontFamily:    T.mono,
           fontSize:      "0.65rem",
-          letterSpacing: "0.1em",
+          letterSpacing: "0.12em",
           color:         T.subtle,
-          marginBottom:  2,
+          marginBottom:  3,
         }}>
           {label}
         </div>
         <div style={{
-          fontFamily: T.sans,
-          fontSize:   "0.875rem",
-          color:      h ? "#60a5fa" : "#94a3b8",
-          transition: "color 0.2s",
+          fontFamily:   T.sans,
+          fontSize:     "0.9rem",
+          color:        h ? accentColor : "#94a3b8",
+          transition:   "color 0.2s",
+          overflow:     "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace:   "nowrap",
         }}>
           {value}
         </div>
       </div>
 
+      {/* Arrow */}
       <div style={{
-        marginLeft: "auto",
-        fontSize:   "0.85rem",
-        color:      h ? T.blue : "#1e3a5f",
-        transform:  h ? "translateX(4px)" : "none",
-        transition: "all 0.2s",
+        fontSize:   "0.9rem",
+        color:      h ? accentColor : "#1e3a5f",
+        transform:  h ? "translateX(5px)" : "none",
+        transition: "all 0.25s",
+        flexShrink: 0,
       }}>
         →
       </div>

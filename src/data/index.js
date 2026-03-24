@@ -99,7 +99,26 @@ export const getWhyItems = (lang) => [
 ];
 
 export const CONTACT_LINKS = [
-  { icon: "✉", label: "Email",    value: "hello@klyro.dev",           href: "mailto:hello@klyro.dev" },
-  { icon: "◻", label: "GitHub",   value: "github.com/klyro",           href: "https://github.com/klyro" },
-  { icon: "◈", label: "LinkedIn", value: "linkedin.com/company/klyro", href: "https://linkedin.com/company/klyro" },
+  {
+    icon:  "◈",
+    label: "LinkedIn",
+    value: "linkedin.com/company/klyro-software",
+    href:  "https://linkedin.com/company/klyro-software",
+    color: "#0a66c2",
+  },
+  {
+    icon:  "✉",
+    label: "Email",
+    value: "klyro.software@proton.me",
+    href:  "mailto:klyro.software@proton.me",
+    color: "#3b82f6",
+  },
 ];
+
+export const WHATSAPP = {
+  number:  "593962762586",
+  message: "Hola, me gustaría hablar con un asesor de Klyro.",
+  get url() {
+    return `https://wa.me/${this.number}?text=${encodeURIComponent(this.message)}`;
+  },
+};
